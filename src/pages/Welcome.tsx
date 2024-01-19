@@ -1,7 +1,7 @@
 import { hello } from '@/services/hello';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Welcome: FC = () => {
+const Welcome: React.FC = () => {
   const [name, setName] = useState('');
 
   useEffect(() => {
