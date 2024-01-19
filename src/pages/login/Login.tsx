@@ -13,7 +13,7 @@ const Login: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <div>
+        <div className={styles.title}>
           <Space>
             <Title level={2}>
               <UserAddOutlined />
