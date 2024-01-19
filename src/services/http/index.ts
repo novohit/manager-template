@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { message as Message } from 'antd';
+import { message as Message } from '@/utils/GlobalContext';
 import { getToken } from '@/utils/token';
 
 const instance = axios.create({
@@ -10,6 +10,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     config.headers['Authorization'] = `Bearer ${getToken()}`;
+    config.headers['apifoxToken '] = 'yKcUXXN6j7pyfd8G8kMjb';
     return config;
   },
   error => Promise.reject(error)

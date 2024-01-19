@@ -2,12 +2,16 @@
 // import viteLogo from '/vite.svg';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, App as AntdApp } from 'antd';
+import GlobalContext from './utils/GlobalContext';
 
 function App() {
   return (
     <ConfigProvider theme={{ token: { colorPrimary: '#1677FF' } }}>
-      <RouterProvider router={router}></RouterProvider>
+      <AntdApp>
+        <GlobalContext />
+        <RouterProvider router={router}></RouterProvider>
+      </AntdApp>
     </ConfigProvider>
   );
 }
