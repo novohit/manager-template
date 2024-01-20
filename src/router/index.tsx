@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     /* 绝对路径 / 开头 相对路径不能用 / */
     path: '/manager',
     element: <ManagerLayout />,
-    children: [{ path: 'list', element: <Welcome /> }],
+    children: [{ path: 'welcome', element: <Welcome /> }],
   },
   {
     path: LOGIN_PATH,

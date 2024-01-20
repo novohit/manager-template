@@ -1,5 +1,6 @@
 import { hello } from '@/services/hello';
 import React, { useEffect, useState } from 'react';
+import styles from './Welcome.module.scss';
 
 const Welcome: React.FC = () => {
   const [name, setName] = useState('');
@@ -14,7 +15,15 @@ const Welcome: React.FC = () => {
 
   return (
     <>
-      <span>welcome, {name}</span>
+      <div className={styles.content}>
+        <span>welcome, {name}</span>
+        <div className={styles.title}>React-Admin</div>
+        <div className={styles.title}>React-Admin</div>
+        <div className={styles.title}>React-Admin</div>
+        <div className={styles.title}>React-Admin</div>
+        <div className={styles.desc}>React18</div>
+      </div>
+      <div className={styles.img}></div>
     </>
   );
 };

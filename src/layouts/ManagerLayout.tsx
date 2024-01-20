@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  DesktopOutlined,
+  FileOutlined,
+  HomeOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import NavHeader from '../components/NavHeader';
+import styles from './MangerLayout.module.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -19,8 +27,9 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
+  getItem('Home', '1', <HomeOutlined />),
+  getItem('Option 1', '2', <PieChartOutlined />),
+  getItem('Option 3', '3', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '3'), getItem('Bill', '4'), getItem('Alex', '5')]),
   getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
   getItem('Files', '9', <FileOutlined />),
@@ -44,19 +53,10 @@ const ManagerLayout: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <NavHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         </Header>
-        <Content style={{ margin: '16px 16px 0' }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <Outlet />
-          </div>
+        <Content className={styles.content} style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}>
+          <Outlet />
         </Content>
-        <Footer style={{ textAlign: 'center', padding: 0, lineHeight: '48px' }}>
+        <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '48px' }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
         </Footer>
       </Layout>

@@ -1,0 +1,20 @@
+.content {
+  .title {
+    font-size: 40px;
+    line-height: 62px;
+    color: #1677FF;
+  }
+  .desc {
+    text-align: center;
+    font-size: 14px;
+    color: gray;
+  }
+}
+
+.img {
+  background: url('@/assets/welcome-bg.png') no-repeat;
+  background-size: contain;
+  max-width: 370px;
+  height: 320px;
+  margin-left: 300px;
+}

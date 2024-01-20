@@ -1,0 +1,6 @@
+.content {
+  height: calc(100vh - 64px - 48px - 32px); // header: 64 footer: 48 margin: 16 + 16
+  margin: 16px 16px 16px;
+  min-height: 5%;
+  overflow: auto;
+}
