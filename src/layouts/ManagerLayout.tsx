@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Button, Layout, Menu, Space, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
+import NavHeader from '../components/NavHeader';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -49,22 +42,7 @@ const ManagerLayout: React.FC = () => {
       {/* 右侧区域 */}
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Space>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-                width: 64,
-                height: 64,
-              }}
-            />
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
-          </Space>
+          <NavHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         </Header>
         <Content style={{ margin: '16px 16px 0' }}>
           <div
