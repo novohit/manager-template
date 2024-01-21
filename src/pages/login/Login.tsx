@@ -1,14 +1,32 @@
 import { UserAddOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { REGISTER_PATH } from '@/router';
+import { MANAGER_PATH, REGISTER_PATH } from '@/router';
+import { UserLoginReq } from '@/types/request/user';
+import { login } from '@/services/user';
+import { setToken } from '@/utils/token';
 
 const { Title } = Typography;
 
 const Login: React.FC = () => {
-  const nav = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // 登录
+  const onFinish = async (values: UserLoginReq) => {
+    // 保证请求错误时局部loading能被正确关闭
+    try {
+      setLoading(true);
+      const token = await login(values);
+      setToken(token);
+      navigate(MANAGER_PATH);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -23,7 +41,7 @@ const Login: React.FC = () => {
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 16 }}
-          onFinish={() => {}}
+          onFinish={onFinish}
           initialValues={{ remember: true }} // 设置默认值
         >
           <Form.Item label="用户名" name="username">
@@ -37,7 +55,7 @@ const Login: React.FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
             <Space direction="horizontal">
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
                 登录
               </Button>
               <Link to={REGISTER_PATH}>暂无账户，去注册</Link>

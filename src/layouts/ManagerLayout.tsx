@@ -30,7 +30,7 @@ const items: MenuItem[] = [
   getItem('Home', '1', <HomeOutlined />),
   getItem('Option 1', '2', <PieChartOutlined />),
   getItem('Option 3', '3', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '3'), getItem('Bill', '4'), getItem('Alex', '5')]),
+  getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '7'), getItem('Bill', '4'), getItem('Alex', '5')]),
   getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
   getItem('Files', '9', <FileOutlined />),
 ];
@@ -40,6 +40,9 @@ const ManagerLayout: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  // 暂时放在 UserInfo 组件中加载
+  // useLoadUserInfo();
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

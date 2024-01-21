@@ -7,6 +7,7 @@ import { createBrowserRouter } from 'react-router-dom';
 export const HOME_PATH = '/';
 export const LOGIN_PATH = '/login';
 export const REGISTER_PATH = '/register';
+export const MANAGER_PATH = '/manager';
 
 const router = createBrowserRouter([
   {
