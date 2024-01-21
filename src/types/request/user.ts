@@ -4,6 +4,7 @@ export interface User {
   password: string;
   age: number;
   email: string;
+  avatar: string;
 }
 
 export interface UserRegisterReq {

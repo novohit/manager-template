@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { LOGIN_PATH } from '@/router';
 import { clearToken } from '@/utils/token';
 import useLoadUserInfo from '@/hooks/useLoadUserInfo';
+import useUserStore from '@/store/userStore';
 
 const UserInfo: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const UserInfo: React.FC = () => {
   };
 
   const { loading } = useLoadUserInfo();
+
+  const user = useUserStore(state => state.user);
 
   const items: MenuProps['items'] = [
     {
@@ -50,8 +53,9 @@ const UserInfo: React.FC = () => {
 
   return (
     <>
+      {user?.username}&nbsp;&nbsp;
       <Dropdown menu={{ items }} arrow>
-        <Avatar size="large" src={avatar} />
+        <Avatar size="large" src={user?.avatar || avatar} />
       </Dropdown>
     </>
   );
