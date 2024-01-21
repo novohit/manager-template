@@ -23,6 +23,7 @@ function useLoadUserInfo() {
       setLoading(false);
     }
     get();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return { loading };

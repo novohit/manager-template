@@ -16,4 +16,5 @@ export interface UserRegisterReq {
 export interface UserLoginReq {
   username: string;
   password: string;
+  remember: boolean;
 }
