@@ -56,7 +56,8 @@ const ManagerLayout: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <NavHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         </Header>
-        <Content className={styles.content} style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}>
+        {/* <Content className={styles.content} style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}> */}
+        <Content className={styles.content} style={{ borderRadius: borderRadiusLG }}>
           <Outlet />
         </Content>
         <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '48px' }}>

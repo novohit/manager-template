@@ -1,0 +1,22 @@
+.search-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px; // TODO 使用 token 变量
+    color: #000;
+}
+
+.base-table {
+    background-color: #fff;
+    border-radius: 5px;
+    color: #000;
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 0 0 0 0; // TODO 使用 token 变量
+        padding: 15px;
+        .action button {
+          margin-left: 15px;
+        }
+      }
+}

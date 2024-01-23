@@ -7,7 +7,7 @@ import GlobalContext from './utils/GlobalContext';
 
 function App() {
   return (
-    <ConfigProvider theme={{ token: { colorPrimary: '#1677FF' } }}>
+    <ConfigProvider theme={{ token: { colorPrimary: '#1677FF', borderRadius: 2 } }}>
       <AntdApp>
         <GlobalContext />
         <RouterProvider router={router}></RouterProvider>

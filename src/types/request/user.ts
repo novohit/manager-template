@@ -1,12 +1,3 @@
-export interface User {
-  userId: string;
-  username: string;
-  password: string;
-  age: number;
-  email: string;
-  avatar: string;
-}
-
 export interface UserRegisterReq {
   username: string;
   password: string;
