@@ -1,6 +1,7 @@
 import http from './http';
 import { User } from '@/types/response/user';
-import { UserLoginReq } from '@/types/request/user';
+import { UserLoginReq, UserPageReq } from '@/types/request/user';
+import { PageResponse } from '@/types/base';
 
 export async function getUserInfo() {
   const url = '/api/user/info';
@@ -20,8 +21,8 @@ export async function login(body: UserLoginReq) {
   return token;
 }
 
-export async function getUserList() {
+export async function getUserList(body: Partial<UserPageReq>) {
   const url = '/api/user/list';
-  const users = (await http.get(url)) as User[];
-  return users;
+  const resp = (await http.post(url, body)) as PageResponse<User>;
+  return resp;
 }

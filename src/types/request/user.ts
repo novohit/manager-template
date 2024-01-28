@@ -1,3 +1,6 @@
+import { PageOption } from '../base';
+import { User } from '../response/user';
+
 export interface UserRegisterReq {
   username: string;
   password: string;
@@ -9,3 +12,5 @@ export interface UserLoginReq {
   password: string;
   remember: boolean;
 }
+
+export interface UserPageReq extends User, PageOption {}

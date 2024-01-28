@@ -4,6 +4,8 @@ import { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
 import { getUserList } from '@/services/user';
+import { DEFAULT_PAGE_SIZE } from '@/constants';
+import SearchForm from '@/components/SearchForm';
 
 const columns: ColumnsType<User> = [
   {
@@ -68,14 +70,33 @@ const columns: ColumnsType<User> = [
 const UserList: React.FC = () => {
   const [userList, setUserList] = useState<User[]>();
   const [selectedIds, setSelectedIds] = useState<React.Key[]>([]);
+  // 属性名为current作为useEffect依赖性会有警告 https://segmentfault.com/q/1010000042967954
+  const [pagination, setPagination] = useState({
+    page: 1,
+    size: DEFAULT_PAGE_SIZE,
+  });
+  const [total, setTotal] = useState(0);
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    async function list() {
-      const userList = await getUserList();
-      setUserList(userList);
-    }
-    list();
-  }, []);
+    loadList({ page: pagination.page, size: pagination.size });
+  }, [pagination.page, pagination.size]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const loadList = async ({ page, size }: { page?: number; size?: number }, formParams?: any) => {
+    const resp = await getUserList({ page, size, ...formParams });
+    setUserList(resp.list);
+    setTotal(resp.total);
+  };
+
+  const handleSearch = () => {
+    setPagination({ page: 1, size: pagination.size });
+    loadList({ page: 1, size: pagination.size }, form.getFieldsValue());
+  };
+
+  const handleReset = () => {
+    form.resetFields();
+  };
 
   function onSelectChange(selectedIds: React.Key[]) {
     setSelectedIds(selectedIds);
@@ -83,22 +104,17 @@ const UserList: React.FC = () => {
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <div className={styles['search-form']}>
-        <Form layout="inline">
-          <Form.Item label="username" name="username">
-            <Input />
-          </Form.Item>
-          <Form.Item label="email" name="email">
-            <Input />
-          </Form.Item>
-          <Form.Item label="xmail" name="xmail">
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary">Search</Button>
-          </Form.Item>
-        </Form>
-      </div>
+      <SearchForm form={form} handleSearch={handleSearch} handleReset={handleReset}>
+        <Form.Item label="用户名" name="username">
+          <Input />
+        </Form.Item>
+        <Form.Item label="邮箱" name="email">
+          <Input />
+        </Form.Item>
+        <Form.Item label="手机号" name="phone">
+          <Input />
+        </Form.Item>
+      </SearchForm>
       <div className={styles['base-table']}>
         <div className={styles['header-wrapper']}>
           <div>UserList</div>
@@ -115,8 +131,20 @@ const UserList: React.FC = () => {
             onChange: onSelectChange,
           }}
           columns={columns}
-          pagination={false}
           scroll={{ x: 1500, y: 300 }}
+          pagination={{
+            current: pagination.page,
+            pageSize: pagination.size,
+            total: total,
+            showSizeChanger: true,
+            showTotal(total) {
+              return `共 ${total} 条`;
+            },
+            position: ['bottomCenter'],
+            onChange(page, pageSize) {
+              setPagination({ page, size: pageSize });
+            },
+          }}
         />
       </div>
     </Space>
