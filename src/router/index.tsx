@@ -2,6 +2,7 @@ import ManagerLayout from '@/layouts/ManagerLayout';
 import Login from '@/pages/login/Login';
 import Register from '@/pages/register/Register';
 import UserList from '@/pages/system/user';
+import DeptList from '@/pages/system/dept';
 import Welcome from '@/pages/Welcome';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'welcome', element: <Welcome /> },
       { path: 'users', element: <UserList /> },
+      { path: 'dept', element: <DeptList /> },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import { User } from '@/types/response/user';
-import { Button, Form, Input, Select, Space, Table, Tag } from 'antd';
+import { Button, Form, Input, Select, Space, Table, Tag, Image } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
@@ -29,14 +29,24 @@ const UserList: React.FC = () => {
       title: 'ID',
       dataIndex: 'userId',
       fixed: 'left',
+      width: 170,
     },
     {
       title: '用户名',
       dataIndex: 'username',
+      align: 'center',
+    },
+    {
+      title: '头像',
+      dataIndex: 'avatar',
+      render: (avatar: string) => <Image src={avatar} width={32} />,
+      align: 'center',
     },
     {
       title: '邮箱',
       dataIndex: 'email',
+      width: 150,
+      ellipsis: true,
     },
     {
       title: '手机号',
@@ -47,23 +57,21 @@ const UserList: React.FC = () => {
       dataIndex: 'age',
     },
     {
-      title: '头像',
-      dataIndex: 'avatar',
-    },
-    {
-      title: '是否收藏',
-      dataIndex: 'isStar',
+      title: '角色',
+      dataIndex: 'role',
       render: (isStar: boolean) => {
-        return isStar ? <Tag color="processing">已收藏</Tag> : <Tag>未收藏</Tag>;
+        return isStar ? <Tag color="processing">管理员</Tag> : <Tag>普通用户</Tag>;
       },
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
+      width: 160,
     },
     {
-      title: '删除时间',
-      dataIndex: 'deletedAt',
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      width: 160,
     },
     // 用原生的onClick，这里拿不到selectedId 无法操作 得封装起来
     {
@@ -83,13 +91,7 @@ const UserList: React.FC = () => {
               >
                 Edit
               </Button>
-              <Button
-                danger
-                type="link"
-                size="small"
-                onClick={deleteConfirm}
-                disabled={selectedIds.length === 0 || deleteLoading}
-              >
+              <Button danger type="link" size="small" onClick={deleteConfirm}>
                 Delete
               </Button>
             </Space>
@@ -97,6 +99,7 @@ const UserList: React.FC = () => {
         );
       },
       fixed: 'right',
+      align: 'center',
     },
   ];
 
@@ -185,7 +188,7 @@ const UserList: React.FC = () => {
       </SearchForm>
       <div className={styles['base-table']}>
         <div className={styles['header-wrapper']}>
-          <div>UserList</div>
+          <div>User List</div>
           <Space>
             <Button type="primary" onClick={handleCreate}>
               Add
@@ -196,7 +199,7 @@ const UserList: React.FC = () => {
           </Space>
         </div>
         <Table
-          rowKey={q => q.userId}
+          rowKey={item => item.userId}
           dataSource={userList}
           rowSelection={{
             selectedRowKeys: selectedIds,
