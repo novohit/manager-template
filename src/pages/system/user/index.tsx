@@ -1,13 +1,15 @@
 import { User } from '@/types/response/user';
-import { Button, Form, Input, Space, Table, Tag } from 'antd';
+import { Button, Form, Input, Select, Space, Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
-import { getUserList } from '@/services/user';
+import { del, getUserList } from '@/services/user';
 import { DEFAULT_PAGE_SIZE } from '@/constants';
 import SearchForm from '@/components/SearchForm';
 import OperationModal from './OperationModal';
 import { ModalRef, Operation } from '@/types/modal';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { message, modal } from '@/utils/GlobalContext';
 
 const UserList: React.FC = () => {
   const [userList, setUserList] = useState<User[]>();
@@ -20,6 +22,7 @@ const UserList: React.FC = () => {
   const [total, setTotal] = useState(0);
   const [form] = Form.useForm();
   const modalRef = useRef<ModalRef<User>>();
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const columns: ColumnsType<User> = [
     {
@@ -78,10 +81,16 @@ const UserList: React.FC = () => {
                   handleUpdate(record);
                 }}
               >
-                编辑
+                Edit
               </Button>
-              <Button danger type="link" size="small">
-                删除
+              <Button
+                danger
+                type="link"
+                size="small"
+                onClick={deleteConfirm}
+                disabled={selectedIds.length === 0 || deleteLoading}
+              >
+                Delete
               </Button>
             </Space>
           </>
@@ -120,6 +129,33 @@ const UserList: React.FC = () => {
     modalRef.current?.open(Operation.UPDATE, user);
   };
 
+  const handleDelete = async () => {
+    try {
+      setDeleteLoading(true);
+      await del(selectedIds);
+    } finally {
+      message.success('success');
+      setDeleteLoading(false);
+      setSelectedIds([]);
+      handleSearch();
+    }
+  };
+
+  function deleteConfirm() {
+    // 静态方法 https://ant.design/docs/blog/why-not-static-cn
+    modal.confirm({
+      title: '确认删除？',
+      icon: <ExclamationCircleFilled />,
+      content: '删除后无法恢复',
+      okText: '确认',
+      cancelText: '取消',
+      onOk() {
+        handleDelete();
+      },
+      onCancel() {},
+    });
+  }
+
   function onSelectChange(selectedIds: React.Key[]) {
     setSelectedIds(selectedIds);
   }
@@ -136,6 +172,16 @@ const UserList: React.FC = () => {
         <Form.Item label="手机号" name="phone">
           <Input />
         </Form.Item>
+        <Form.Item label="性别" name="sex">
+          <Select
+            style={{ width: 60 }}
+            options={[
+              { value: 'male', label: '男' },
+              { value: 'female', label: '女' },
+              { value: 'unknown', label: '未知' },
+            ]}
+          />
+        </Form.Item>
       </SearchForm>
       <div className={styles['base-table']}>
         <div className={styles['header-wrapper']}>
@@ -144,7 +190,7 @@ const UserList: React.FC = () => {
             <Button type="primary" onClick={handleCreate}>
               Add
             </Button>
-            <Button type="primary" danger>
+            <Button type="primary" danger onClick={handleDelete} disabled={selectedIds.length === 0 || deleteLoading}>
               Delete
             </Button>
           </Space>

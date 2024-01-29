@@ -14,3 +14,18 @@ export interface UserLoginReq {
 }
 
 export interface UserPageReq extends User, PageOption {}
+
+export interface UserCreateReq {
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+}
+
+export interface UserUpdateReq {
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+}
+export { User };

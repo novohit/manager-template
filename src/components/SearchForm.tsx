@@ -23,9 +23,7 @@ const SearchForm: React.FC<Props> = (props: Props) => {
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" onClick={handleReset}>
-            Reset
-          </Button>
+          <Button onClick={handleReset}>Reset</Button>
         </Form.Item>
       </Form>
     </div>

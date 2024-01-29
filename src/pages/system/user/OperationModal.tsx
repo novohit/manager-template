@@ -1,3 +1,4 @@
+import { create, update } from '@/services/user';
 import { Operation } from '@/types/modal';
 import { User } from '@/types/response/user';
 import { message } from '@/utils/GlobalContext';
@@ -27,6 +28,12 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
 
   const handleOk = async () => {
     const valid = await form.validateFields();
+    if (!valid) return;
+    if (operation === Operation.CREATE) {
+      create(form.getFieldsValue());
+    } else {
+      update(form.getFieldValue('userId'), form.getFieldsValue());
+    }
     message.success('success');
     props.refresh();
     handleCancel();
@@ -45,8 +52,8 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
       onCancel={handleCancel}
     >
       <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
-        <Form.Item name="userId" hidden>
-          <Input />
+        <Form.Item label="ID" name="userId" hidden={operation === Operation.CREATE}>
+          <Input disabled />
         </Form.Item>
         <Form.Item label="用户名称" name="username">
           <Input placeholder="请输入用户名称"></Input>

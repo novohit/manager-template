@@ -1,6 +1,6 @@
 import http from './http';
 import { User } from '@/types/response/user';
-import { UserLoginReq, UserPageReq } from '@/types/request/user';
+import { UserCreateReq, UserLoginReq, UserPageReq, UserUpdateReq } from '@/types/request/user';
 import { PageResponse } from '@/types/base';
 
 export async function getUserInfo() {
@@ -24,5 +24,23 @@ export async function login(body: UserLoginReq) {
 export async function getUserList(body: Partial<UserPageReq>) {
   const url = '/api/user/list';
   const resp = (await http.post(url, body)) as PageResponse<User>;
+  return resp;
+}
+
+export async function create(body: UserCreateReq) {
+  const url = '/api/user';
+  const resp = (await http.post(url, body)) as string;
+  return resp;
+}
+
+export async function update(userId: string, body: UserUpdateReq) {
+  const url = `/api/user/${userId}`;
+  const resp = (await http.put(url, body)) as string;
+  return resp;
+}
+
+export async function del(userIds: React.Key[]) {
+  const url = '/api/user';
+  const resp = (await http.delete(url, { data: userIds })) as string;
   return resp;
 }
