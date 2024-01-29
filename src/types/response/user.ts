@@ -6,5 +6,6 @@ export interface User extends BaseModel {
   password: string;
   age: number;
   email: string;
+  phone: string;
   avatar: string;
 }
