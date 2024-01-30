@@ -14,6 +14,7 @@ const DeptList: React.FC = () => {
   const [deptList, setDeptList] = useState<Dept[]>([]);
   const [form] = Form.useForm();
   const modalRef = useRef<ModalRef<Dept | { parentId: string }>>();
+  const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
   const columns: ColumnsType<Dept> = [
     {
@@ -111,6 +112,14 @@ const DeptList: React.FC = () => {
     loadList();
   };
 
+  const handleExpand = () => {
+    if (expandedRowKeys.length > 0) {
+      setExpandedRowKeys([]);
+    } else {
+      setExpandedRowKeys(getNonLeafDeptIds(deptList));
+    }
+  };
+
   function deleteConfirm(deptId: string) {
     // 静态方法 https://ant.design/docs/blog/why-not-static-cn
     modal.confirm({
@@ -137,7 +146,7 @@ const DeptList: React.FC = () => {
         <div className={styles['header-wrapper']}>
           <div>Dept List</div>
           <Space>
-            <Button onClick={() => {}}>Expand</Button>
+            <Button onClick={handleExpand}>{expandedRowKeys.length > 0 ? 'Collapse' : 'Expand'}</Button>
             <Button
               type="primary"
               onClick={() => {
@@ -148,11 +157,44 @@ const DeptList: React.FC = () => {
             </Button>
           </Space>
         </div>
-        <Table rowKey={item => item.deptId} dataSource={deptList} columns={columns} pagination={false} />
+        <Table
+          rowKey={item => item.deptId}
+          dataSource={deptList}
+          columns={columns}
+          expandable={{
+            expandedRowKeys: expandedRowKeys,
+            onExpand: (expanded, record) => {
+              if (expanded) {
+                setExpandedRowKeys(expandedRowKeys.concat([record.deptId]));
+              } else {
+                // TODO 同时折叠子项
+                setExpandedRowKeys(
+                  expandedRowKeys.filter(key => {
+                    if (key === record.deptId) return false;
+                    return true;
+                  })
+                );
+              }
+            },
+          }}
+          pagination={false}
+        />
       </div>
       <OperationModal ref={modalRef} deptList={deptList} refresh={loadList} />
     </Space>
   );
 };
+
+function getNonLeafDeptIds(deptList: Dept[]): string[] {
+  let result: string[] = [];
+  for (const dept of deptList) {
+    if (dept.children && dept.children.length > 0) {
+      result.push(dept.deptId);
+      const childrenNonLeafDeptIds = getNonLeafDeptIds(dept.children);
+      result = result.concat(childrenNonLeafDeptIds);
+    }
+  }
+  return result;
+}
 
 export default DeptList;
