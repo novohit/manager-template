@@ -1,16 +1,19 @@
 import SearchForm from '@/components/SearchForm';
 import { Button, Form, Input, Space } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
-import { modal } from '@/utils/GlobalContext';
+import { message, modal } from '@/utils/GlobalContext';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import Table, { ColumnsType } from 'antd/es/table';
 import { Dept } from '@/types/response/dept';
-import { list } from '@/services/dept';
+import { del, list } from '@/services/dept';
+import { ModalRef, Operation } from '@/types/modal';
+import OperationModal from './OperationModal';
 
 const DeptList: React.FC = () => {
-  const [deptList, setDeptList] = useState<Dept[]>();
+  const [deptList, setDeptList] = useState<Dept[]>([]);
   const [form] = Form.useForm();
+  const modalRef = useRef<ModalRef<Dept | { parentId: string }>>();
 
   const columns: ColumnsType<Dept> = [
     {
@@ -47,12 +50,28 @@ const DeptList: React.FC = () => {
                 type="text"
                 size="small"
                 onClick={() => {
-                  handleUpdate();
+                  handleCreate(record.deptId);
+                }}
+              >
+                Add
+              </Button>
+              <Button
+                type="text"
+                size="small"
+                onClick={() => {
+                  handleUpdate(record);
                 }}
               >
                 Edit
               </Button>
-              <Button danger type="link" size="small" onClick={deleteConfirm}>
+              <Button
+                danger
+                type="link"
+                size="small"
+                onClick={() => {
+                  deleteConfirm(record.deptId);
+                }}
+              >
                 Delete
               </Button>
             </Space>
@@ -78,13 +97,21 @@ const DeptList: React.FC = () => {
     form.resetFields();
   };
 
-  const handleCreate = () => {};
+  const handleCreate = (parentId: string) => {
+    modalRef.current?.open(Operation.CREATE, { parentId });
+  };
 
-  const handleUpdate = () => {};
+  const handleUpdate = (dept: Dept) => {
+    modalRef.current?.open(Operation.UPDATE, dept);
+  };
 
-  const handleDelete = async () => {};
+  const handleDelete = async (deptId: string) => {
+    await del([deptId]);
+    message.success('success');
+    loadList();
+  };
 
-  function deleteConfirm() {
+  function deleteConfirm(deptId: string) {
     // 静态方法 https://ant.design/docs/blog/why-not-static-cn
     modal.confirm({
       title: '确认删除？',
@@ -93,7 +120,7 @@ const DeptList: React.FC = () => {
       okText: '确认',
       cancelText: '取消',
       onOk() {
-        handleDelete();
+        handleDelete(deptId);
       },
       onCancel() {},
     });
@@ -110,14 +137,20 @@ const DeptList: React.FC = () => {
         <div className={styles['header-wrapper']}>
           <div>Dept List</div>
           <Space>
-            <Button onClick={handleCreate}>Expand</Button>
-            <Button type="primary" onClick={handleCreate}>
+            <Button onClick={() => {}}>Expand</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                handleCreate('');
+              }}
+            >
               Add
             </Button>
           </Space>
         </div>
         <Table rowKey={item => item.deptId} dataSource={deptList} columns={columns} pagination={false} />
       </div>
+      <OperationModal ref={modalRef} deptList={deptList} refresh={loadList} />
     </Space>
   );
 };

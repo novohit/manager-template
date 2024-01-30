@@ -1,28 +1,29 @@
-import { create, update } from '@/services/user';
+import { create, update } from '@/services/dept';
 import { Operation } from '@/types/modal';
-import { User } from '@/types/response/user';
+import { Dept } from '@/types/response/dept';
 import { message } from '@/utils/GlobalContext';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, TreeSelect } from 'antd';
 import React, { useImperativeHandle, useState } from 'react';
 
 interface Props {
   // 操作后刷新列表的函数
   refresh: () => void;
+  deptList: Dept[];
 }
 
 const OperationModal = React.forwardRef((props: Props, ref) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<boolean>(false);
   const [operation, setOperation] = useState<Operation>();
+  const [deptList, setDeptList] = useState<Dept[]>([]);
 
   // 暴露 open 方法给父组件调用
   useImperativeHandle(ref, () => ({
-    open: (operation: Operation, payload: User) => {
+    open: (operation: Operation, payload: Dept | { parentId: string }) => {
       setVisible(true);
       setOperation(operation);
-      if (operation === Operation.UPDATE && payload) {
-        form.setFieldsValue(payload);
-      }
+      setDeptList(props.deptList);
+      form.setFieldsValue(payload);
     },
   }));
 
@@ -32,7 +33,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
     if (operation === Operation.CREATE) {
       create(form.getFieldsValue());
     } else {
-      update(form.getFieldValue('userId'), form.getFieldsValue());
+      update(form.getFieldValue('deptId'), form.getFieldsValue());
     }
     message.success('success');
     props.refresh();
@@ -47,24 +48,28 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
   // TODO 表单校验
   return (
     <Modal
-      title={operation === Operation.CREATE ? 'Add User' : 'Edit User'}
+      title={operation === Operation.CREATE ? 'Add Dept' : 'Edit Dept'}
       width={800}
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
     >
       <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
-        <Form.Item label="ID" name="userId" hidden={operation === Operation.CREATE}>
+        <Form.Item label="ID" name="deptId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>
-        <Form.Item label="用户名称" name="username">
-          <Input placeholder="请输入用户名称"></Input>
+        <Form.Item label="上级部门" name="parentId">
+          <TreeSelect
+            placeholder="请选择上级部门"
+            allowClear
+            treeLine
+            treeDefaultExpandAll
+            fieldNames={{ label: 'deptName', value: 'deptId' }}
+            treeData={deptList}
+          />
         </Form.Item>
-        <Form.Item label="用户邮箱" name="email">
-          <Input placeholder="请输入用户邮箱"></Input>
-        </Form.Item>
-        <Form.Item label="手机号" name="phone">
-          <Input placeholder="请输入手机号"></Input>
+        <Form.Item label="部门名称" name="deptName">
+          <Input placeholder="请输入部门名称"></Input>
         </Form.Item>
       </Form>
     </Modal>

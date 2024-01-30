@@ -28,4 +28,3 @@ export interface UserUpdateReq {
   email: string;
   phone: string;
 }
-export { User };
