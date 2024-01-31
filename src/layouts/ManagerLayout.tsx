@@ -36,7 +36,7 @@ const items: MenuItem[] = [
 ];
 
 const ManagerLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -60,7 +60,7 @@ const ManagerLayout: React.FC = () => {
         <Content className={styles.content} style={{ borderRadius: borderRadiusLG }}>
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '48px' }}>
+        <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '32px' }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
         </Footer>
       </Layout>

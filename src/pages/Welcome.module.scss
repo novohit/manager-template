@@ -1,4 +1,8 @@
 .content {
+  background-color: #fff;
+  height: calc(100vh - 64px - 32px - 2 * 20px);
+  // height: 100%;
+  // https://www.cnblogs.com/xaun/p/13673798.html
   .title {
     font-size: 40px;
     line-height: 62px;
@@ -12,7 +16,7 @@
 }
 
 .img {
-  background: url('@/assets/welcome-bg.png') no-repeat;
+  // background: url('@/assets/welcome-bg.png') no-repeat;
   background-size: contain;
   max-width: 370px;
   height: 320px;

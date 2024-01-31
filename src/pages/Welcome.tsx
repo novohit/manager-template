@@ -23,7 +23,7 @@ const Welcome: React.FC = () => {
         <div className={styles.title}>React-Admin</div>
         <div className={styles.desc}>React18</div>
       </div>
-      <div className={styles.img}></div>
+      {/* <div className={styles.img}></div> */}
     </>
   );
 };

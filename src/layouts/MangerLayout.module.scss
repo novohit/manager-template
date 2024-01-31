@@ -1,6 +1,7 @@
 .content {
-  height: calc(100vh - 64px - 48px - 32px); // header: 64 footer: 48 margin: 16 + 16
+  // height: calc(100vh - 64px - 32px - 32px); // header: 64 footer: 32 margin: 16 + 16
   // margin: 16px 16px 16px; // 外边距的效果 滚动条在内层控制
+  height: calc(100vh - 64px - 32px); // header: 64 footer: 32
   padding: 20px;
   min-height: 5%;
   overflow: auto;

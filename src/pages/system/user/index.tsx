@@ -206,7 +206,7 @@ const UserList: React.FC = () => {
             onChange: onSelectChange,
           }}
           columns={columns}
-          scroll={{ x: 1500, y: 300 }}
+          scroll={{ x: 1500, y: 310 }}
           pagination={{
             current: pagination.page,
             pageSize: pagination.size,
