@@ -3,6 +3,7 @@ import Login from '@/pages/login/Login';
 import Register from '@/pages/register/Register';
 import UserList from '@/pages/system/user';
 import DeptList from '@/pages/system/dept';
+import MenuList from '@/pages/system/menu';
 import Welcome from '@/pages/Welcome';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: 'welcome', element: <Welcome /> },
       { path: 'users', element: <UserList /> },
       { path: 'dept', element: <DeptList /> },
+      { path: 'menu', element: <MenuList /> },
     ],
   },
   {
