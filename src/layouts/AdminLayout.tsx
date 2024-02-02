@@ -7,11 +7,13 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+import * as Icons from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import NavHeader from '../components/NavHeader';
-import styles from './MangerLayout.module.scss';
+import styles from './AdminLayout.module.scss';
+import { Menu as IMenu, MenuRouter } from '@/types/response/menu';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -27,29 +29,47 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const items: MenuItem[] = [
-  getItem('Home', '1', <HomeOutlined />),
-  getItem('Option 1', '2', <PieChartOutlined />),
+  getItem('Home', '2', <HomeOutlined />),
+  getItem('Option 1', '1', <PieChartOutlined />),
   getItem('Option 3', '3', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '7'), getItem('Bill', '4'), getItem('Alex', '5')]),
   getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
   getItem('Files', '9', <FileOutlined />),
 ];
 
-const ManagerLayout: React.FC = () => {
+const convertAntdItems = (menus: IMenu[] = []) => {
+  if (menus.length === 0) return;
+  const antdItems: MenuItem[] = [];
+  menus.forEach(menu => {
+    antdItems.push(getItem(menu.menuName, menu.id, convertIcon(menu.icon), convertAntdItems(menu.children)));
+  });
+  return antdItems;
+};
+
+// TODO 优化全量引入
+const convertIcon = (name?: string) => {
+  if (!name) return;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const antdIcons: { [key: string]: any } = Icons;
+  if (!antdIcons[name]) return;
+  return React.createElement(antdIcons[name]);
+};
+
+const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  // 暂时放在 UserInfo 组件中加载
-  // useLoadUserInfo();
+  const { menus } = useLoaderData() as MenuRouter;
+  const antdItems = convertAntdItems(menus);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* 左侧栏 */}
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div style={{ height: '32px', margin: '16px', background: 'red' }} />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <div style={{ height: '32px', margin: '16px', background: 'gray' }}></div>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={antdItems} />
       </Sider>
       {/* 右侧区域 */}
       <Layout>
@@ -68,4 +88,4 @@ const ManagerLayout: React.FC = () => {
   );
 };
 
-export default ManagerLayout;
+export default AdminLayout;

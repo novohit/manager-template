@@ -11,5 +11,10 @@ export interface Menu extends BaseModel {
   component: string;
   router: string;
   state: string;
-  children: Menu[];
+  children?: Menu[];
+}
+
+export interface MenuRouter {
+  menus: Menu[];
+  router: string[];
 }

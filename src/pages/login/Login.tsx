@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { MANAGER_PATH, REGISTER_PATH } from '@/router';
+import { ADMIN_PATH, REGISTER_PATH } from '@/router';
 import { UserLoginReq } from '@/types/request/user';
 import { login } from '@/services/user';
 import { setToken } from '@/utils/token';
@@ -36,7 +36,7 @@ const Login: React.FC = () => {
       }
       const token = await login(values);
       setToken(token);
-      navigate(MANAGER_PATH);
+      navigate(ADMIN_PATH);
     } finally {
       setLoading(false);
     }

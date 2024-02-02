@@ -1,10 +1,16 @@
-import { Menu } from '@/types/response/menu';
+import { Menu, MenuRouter } from '@/types/response/menu';
 import http from './http';
 import { MenuCreateReq, MenuUpdateReq } from '@/types/request/menu';
 
 export async function list() {
   const url = '/api/menu/list';
   const resp = (await http.get(url)) as Menu[];
+  return resp;
+}
+
+export async function menuRouter() {
+  const url = '/api/menu/router';
+  const resp = (await http.get(url)) as MenuRouter;
   return resp;
 }
 
