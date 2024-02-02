@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  HomeOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import * as Icons from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
-import { Outlet, useLoaderData } from 'react-router-dom';
+import { Link, Navigate, Outlet, useLoaderData, useLocation } from 'react-router-dom';
 import NavHeader from '../components/NavHeader';
 import styles from './AdminLayout.module.scss';
 import { Menu as IMenu, MenuRouter } from '@/types/response/menu';
+import Icon from '@/components/Icon';
+import trimEnd from 'lodash.trimend';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,48 +21,42 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('Home', '2', <HomeOutlined />),
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 3', '3', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '7'), getItem('Bill', '4'), getItem('Alex', '5')]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
-
 const convertAntdItems = (menus: IMenu[] = []) => {
   if (menus.length === 0) return;
-  const antdItems: MenuItem[] = [];
+  const items: MenuItem[] = [];
   menus.forEach(menu => {
-    antdItems.push(getItem(menu.menuName, menu.id, convertIcon(menu.icon), convertAntdItems(menu.children)));
+    items.push(
+      getItem(
+        menu.router ? <Link to={menu.router}>{menu.menuName}</Link> : <>{menu.menuName}</>,
+        menu.id,
+        <Icon type={menu.icon} />,
+        convertAntdItems(menu.children)
+      )
+    );
   });
-  return antdItems;
-};
-
-// TODO 优化全量引入
-const convertIcon = (name?: string) => {
-  if (!name) return;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const antdIcons: { [key: string]: any } = Icons;
-  if (!antdIcons[name]) return;
-  return React.createElement(antdIcons[name]);
+  return items;
 };
 
 const AdminLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const { menus } = useLoaderData() as MenuRouter;
-  const antdItems = convertAntdItems(menus);
+  const { pathname } = useLocation();
+  const { menus, router } = useLoaderData() as MenuRouter;
+
+  // 路由鉴权
+  if (!router.includes(trimEnd(pathname, '/'))) return <Navigate to="/403" />;
+
+  const items = convertAntdItems(menus);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* 左侧栏 */}
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
         <div style={{ height: '32px', margin: '16px', background: 'gray' }}></div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={antdItems} />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       {/* 右侧区域 */}
       <Layout>

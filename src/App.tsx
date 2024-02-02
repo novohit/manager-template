@@ -9,7 +9,8 @@ function App() {
   return (
     <ConfigProvider
       theme={{
-        token: { colorPrimary: '#1677FF', borderRadius: 2 },
+        // borderRadius: 2
+        token: { colorPrimary: '#1677FF' },
         components: {
           Layout: {
             triggerHeight: 32,

@@ -23,6 +23,7 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@types/lodash.trimend": "^4.5.9",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
@@ -36,6 +37,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^8.0.3",
+    "lodash.trimend": "^4.5.1",
     "postcss": "^8.4.33",
     "prettier": "^3.2.4",
     "sass": "^1.70.0",

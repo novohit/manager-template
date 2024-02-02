@@ -6,7 +6,9 @@ import DeptList from '@/pages/system/dept';
 import MenuList from '@/pages/system/menu';
 import Welcome from '@/pages/Welcome';
 import AuthLoader from './AuthLoader';
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
+import NotFound from '@/pages/NotFound';
+import Forbidden from '@/pages/Forbidden';
 
 export const HOME_PATH = '/';
 export const LOGIN_PATH = '/login';
@@ -25,10 +27,12 @@ const router = createBrowserRouter([
     loader: AuthLoader,
     element: <AdminLayout />,
     children: [
+      // replace 跳转后替换之前的历史记录
+      { path: '', element: <Navigate to="welcome" replace={true} /> },
       { path: 'welcome', element: <Welcome /> },
-      { path: 'users', element: <UserList /> },
+      { path: 'user', element: <UserList /> },
       { path: 'dept', element: <DeptList /> },
-      { path: 'menus', element: <MenuList /> },
+      { path: 'menu', element: <MenuList /> },
     ],
   },
   {
@@ -38,6 +42,18 @@ const router = createBrowserRouter([
   {
     path: REGISTER_PATH,
     element: <Register />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/404" />,
+  },
+  {
+    path: '/404',
+    element: <NotFound />,
+  },
+  {
+    path: '/403',
+    element: <Forbidden />,
   },
 ]);
 
