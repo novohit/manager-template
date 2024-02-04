@@ -1,4 +1,4 @@
-import { User } from '@/types/request/user';
+import { User } from '@/types/response/user';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 

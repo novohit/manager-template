@@ -21,7 +21,9 @@ const UserList: React.FC = () => {
   });
   const [total, setTotal] = useState(0);
   const [form] = Form.useForm();
-  const modalRef = useRef<ModalRef<User>>();
+  const modalRef = useRef<ModalRef<User>>({ open: () => {} });
+
+  React.createRef();
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const columns: ColumnsType<User> = [
@@ -122,6 +124,7 @@ const UserList: React.FC = () => {
   const handleReset = () => {
     // TODO 删除查询条件时 自动重置
     form.resetFields();
+    loadList({ page: pagination.page, size: pagination.size });
   };
 
   const handleCreate = () => {
@@ -222,7 +225,7 @@ const UserList: React.FC = () => {
           }}
         />
       </div>
-      <OperationModal ref={modalRef} refresh={handleSearch} />
+      <OperationModal modalRef={modalRef} refresh={handleSearch} />
     </Space>
   );
 };

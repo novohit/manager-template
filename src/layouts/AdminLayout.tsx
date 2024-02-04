@@ -28,7 +28,7 @@ const convertAntdItems = (menus: IMenu[] = []) => {
     items.push(
       getItem(
         menu.router ? <Link to={menu.router}>{menu.menuName}</Link> : <>{menu.menuName}</>,
-        menu.id,
+        menu.menuId,
         <Icon type={menu.icon} />,
         convertAntdItems(menu.children)
       )
@@ -46,6 +46,7 @@ const AdminLayout: React.FC = () => {
   const { pathname } = useLocation();
   const { menus, router } = useLoaderData() as MenuRouter;
 
+  console.log(pathname);
   // 路由鉴权
   if (!router.includes(trimEnd(pathname, '/'))) return <Navigate to="/403" />;
 
@@ -68,7 +69,7 @@ const AdminLayout: React.FC = () => {
           <Outlet />
         </Content>
         <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '32px' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          React-Admin ©{new Date().getFullYear()} Created by novo
         </Footer>
       </Layout>
     </Layout>

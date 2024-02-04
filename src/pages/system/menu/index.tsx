@@ -1,5 +1,5 @@
 import SearchForm from '@/components/SearchForm';
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Input, Space, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
 import { message, modal } from '@/utils/GlobalContext';
@@ -45,6 +45,9 @@ const MenuList: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'state',
+      render: (state: string) => {
+        return state === 'active' ? <Tag color="processing">正常</Tag> : <Tag>停用</Tag>;
+      },
       align: 'center',
     },
     {
@@ -77,7 +80,7 @@ const MenuList: React.FC = () => {
                 type="text"
                 size="small"
                 onClick={() => {
-                  handleCreate(record.id);
+                  handleCreate(record.menuId);
                 }}
               >
                 Add
@@ -96,7 +99,7 @@ const MenuList: React.FC = () => {
                 type="link"
                 size="small"
                 onClick={() => {
-                  deleteConfirm(record.id);
+                  deleteConfirm(record.menuId);
                 }}
               >
                 Delete
@@ -122,6 +125,7 @@ const MenuList: React.FC = () => {
   const handleReset = () => {
     // TODO 删除查询条件时 自动重置
     form.resetFields();
+    loadList();
   };
 
   const handleCreate = (parentId: string) => {
@@ -164,7 +168,7 @@ const MenuList: React.FC = () => {
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <SearchForm form={form} handleSearch={() => {}} handleReset={handleReset}>
-        <Form.Item label="菜单名称" name="email">
+        <Form.Item label="菜单" name="menuName">
           <Input />
         </Form.Item>
       </SearchForm>
@@ -184,19 +188,19 @@ const MenuList: React.FC = () => {
           </Space>
         </div>
         <Table
-          rowKey={item => item.id}
+          rowKey={item => item.menuId}
           dataSource={MenuList}
           columns={columns}
           expandable={{
             expandedRowKeys: expandedRowKeys,
             onExpand: (expanded, record) => {
               if (expanded) {
-                setExpandedRowKeys(expandedRowKeys.concat([record.id]));
+                setExpandedRowKeys(expandedRowKeys.concat([record.menuId]));
               } else {
                 // TODO 同时折叠子项
                 setExpandedRowKeys(
                   expandedRowKeys.filter(key => {
-                    if (key === record.id) return false;
+                    if (key === record.menuId) return false;
                     return true;
                   })
                 );
@@ -215,7 +219,7 @@ function getNonLeafMenuIds(MenuList: Menu[]): string[] {
   let result: string[] = [];
   for (const menu of MenuList) {
     if (menu.children && menu.children.length > 0) {
-      result.push(menu.id);
+      result.push(menu.menuId);
       const childrenNonLeafmenuIds = getNonLeafMenuIds(menu.children);
       result = result.concat(childrenNonLeafmenuIds);
     }

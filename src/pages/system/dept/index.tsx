@@ -21,6 +21,7 @@ const DeptList: React.FC = () => {
       title: 'ID',
       dataIndex: 'deptId',
       width: 170,
+      align: 'center',
       hidden: true,
     },
     {
@@ -32,11 +33,13 @@ const DeptList: React.FC = () => {
       title: '创建时间',
       dataIndex: 'createdAt',
       width: 160,
+      align: 'center',
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
       width: 160,
+      align: 'center',
     },
     // 用原生的onClick，这里拿不到selectedId 无法操作 得封装起来
     {

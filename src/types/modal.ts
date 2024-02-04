@@ -5,5 +5,5 @@ export enum Operation {
 }
 
 export type ModalRef<T> = {
-  open: (operation: Operation, data?: T) => void;
+  open: (operation: Operation, payload?: T) => void;
 };

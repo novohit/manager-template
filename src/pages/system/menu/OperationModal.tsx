@@ -17,6 +17,8 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
   const [operation, setOperation] = useState<Operation>();
   const [menuList, setMenuList] = useState<Menu[]>([]);
 
+  console.log('menu modal');
+
   // 暴露 open 方法给父组件调用
   useImperativeHandle(ref, () => ({
     open: (operation: Operation, payload: Menu | { parentId: string }) => {
@@ -33,7 +35,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
     if (operation === Operation.CREATE) {
       create(form.getFieldsValue());
     } else {
-      update(form.getFieldValue('id'), form.getFieldsValue());
+      update(form.getFieldValue('menuId'), form.getFieldsValue());
     }
     message.success('success');
     props.refresh();
@@ -55,7 +57,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
       onCancel={handleCancel}
     >
       <Form form={form} initialValues={{ type: 'DIR', state: 'active' }} labelCol={{ span: 4 }} labelAlign="right">
-        <Form.Item label="ID" name="id" hidden={operation === Operation.CREATE}>
+        <Form.Item label="ID" name="menuId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>
         <Form.Item label="上级菜单" name="parentId">
@@ -64,7 +66,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
             allowClear
             treeLine
             treeDefaultExpandAll
-            fieldNames={{ label: 'menuName', value: 'id' }}
+            fieldNames={{ label: 'menuName', value: 'menuId' }}
             treeData={menuList}
           />
         </Form.Item>

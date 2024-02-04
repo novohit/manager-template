@@ -4,6 +4,7 @@ import Register from '@/pages/register/Register';
 import UserList from '@/pages/system/user';
 import DeptList from '@/pages/system/dept';
 import MenuList from '@/pages/system/menu';
+import RoleList from '@/pages/system/role';
 import Welcome from '@/pages/Welcome';
 import AuthLoader from './AuthLoader';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
@@ -18,7 +19,7 @@ export const ADMIN_PATH = '/admin';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Welcome />,
+    element: <Navigate to="admin" replace={true} />,
   },
   {
     /* 绝对路径 / 开头 相对路径不能用 / */
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
       { path: 'user', element: <UserList /> },
       { path: 'dept', element: <DeptList /> },
       { path: 'menu', element: <MenuList /> },
+      { path: 'role', element: <RoleList /> },
     ],
   },
   {

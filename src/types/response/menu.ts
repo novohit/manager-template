@@ -1,7 +1,8 @@
+import React from 'react';
 import { BaseModel } from '../base';
 
 export interface Menu extends BaseModel {
-  id: string;
+  menuId: string;
   menuName: string;
   menuCode: string;
   parentId: string;
@@ -12,6 +13,11 @@ export interface Menu extends BaseModel {
   router: string;
   state: string;
   children?: Menu[];
+}
+
+export interface RolePermission {
+  menus: Menu[];
+  checkedKeys: React.Key[];
 }
 
 export interface MenuRouter {
