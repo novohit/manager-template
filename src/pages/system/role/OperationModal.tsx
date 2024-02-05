@@ -14,13 +14,17 @@ interface Props {
 const OperationModal = React.forwardRef((props: Props, ref) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<boolean>(false);
-  const [operation, setOperation] = useState<Operation>();
+  const [operation, setOperation] = useState<Operation>(Operation.CREATE);
+  // https://www.cnblogs.com/cailijuan/p/13677746.html
+  const [key, setKey] = useState(0);
 
   // 暴露 open 方法给父组件调用
   useImperativeHandle(ref, () => ({
-    open: (operation: Operation, payload: Role) => {
+    open: (operation: Operation, payload?: Role) => {
       setVisible(true);
       setOperation(operation);
+      setKey(key + 1);
+      form.resetFields();
       if (operation === Operation.UPDATE && payload) {
         form.setFieldsValue(payload);
       }
@@ -49,14 +53,14 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
   // TODO 表单校验
   return (
     <Modal
+      key={key}
       title={operation === Operation.CREATE ? 'Add Role' : 'Edit Role'}
       width={800}
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      destroyOnClose
     >
-      <Form form={form} preserve={false} labelCol={{ span: 4 }} labelAlign="right">
+      <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
         <Form.Item label="ID" name="roleId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>
@@ -64,7 +68,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
           <Input placeholder="请输入角色名称"></Input>
         </Form.Item>
         <Form.Item label="权限" name="s">
-          <PermissionTree />
+          {visible && <PermissionTree />}
         </Form.Item>
         <Form.Item label="Code" name="roleCode">
           <Input placeholder="请输入Code"></Input>

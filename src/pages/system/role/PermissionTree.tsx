@@ -3,6 +3,7 @@ import { Form, Tree } from 'antd';
 import type { TreeDataNode } from 'antd';
 import { list, rolePermission } from '@/services/menu';
 import { Menu } from '@/types/response/menu';
+import { Operation } from '@/types/modal';
 
 const convertToTreeData = (menus: Menu[] = []) => {
   if (menus.length === 0) return [];
@@ -20,7 +21,6 @@ const PermissionTree: React.FC = () => {
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
   const form = Form.useFormInstance();
   const roleId = form.getFieldValue('roleId');
-
   useEffect(() => {
     const loadList = async () => {
       if (roleId) {

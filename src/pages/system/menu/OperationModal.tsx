@@ -16,13 +16,16 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [operation, setOperation] = useState<Operation>();
   const [menuList, setMenuList] = useState<Menu[]>([]);
+  const [key, setKey] = useState(0);
 
   // 暴露 open 方法给父组件调用
   useImperativeHandle(ref, () => ({
     open: (operation: Operation, payload: Menu | { parentId: string }) => {
       setVisible(true);
       setOperation(operation);
+      setKey(key + 1);
       setMenuList(props.menuList);
+      form.resetFields();
       form.setFieldsValue(payload);
     },
   }));
@@ -52,15 +55,8 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      destroyOnClose
     >
-      <Form
-        form={form}
-        preserve={false}
-        initialValues={{ type: 'DIR', state: 'active' }}
-        labelCol={{ span: 4 }}
-        labelAlign="right"
-      >
+      <Form form={form} initialValues={{ type: 'DIR', state: 'active' }} labelCol={{ span: 4 }} labelAlign="right">
         <Form.Item label="ID" name="menuId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>

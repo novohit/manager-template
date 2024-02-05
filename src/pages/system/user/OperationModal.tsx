@@ -15,12 +15,15 @@ const OperationModal: React.FC<Props> = (props: Props) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<boolean>(false);
   const [operation, setOperation] = useState<Operation>();
+  const [key, setKey] = useState(0);
 
   // 暴露 open 方法给父组件调用
   useImperativeHandle(props.modalRef, () => ({
     open: (operation: Operation, payload?: User) => {
       setVisible(true);
       setOperation(operation);
+      setKey(key + 1);
+      form.resetFields();
       if (operation === Operation.UPDATE && payload) {
         form.setFieldsValue(payload);
       }
@@ -52,9 +55,8 @@ const OperationModal: React.FC<Props> = (props: Props) => {
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      destroyOnClose
     >
-      <Form form={form} preserve={false} labelCol={{ span: 4 }} labelAlign="right">
+      <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
         <Form.Item label="ID" name="userId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>
