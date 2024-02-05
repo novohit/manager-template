@@ -27,6 +27,8 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
     },
   }));
 
+  // TODO 表单旧值
+
   const handleOk = async () => {
     const valid = await form.validateFields();
     if (!valid) return;
@@ -42,7 +44,6 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
 
   const handleCancel = () => {
     setVisible(false);
-    form.resetFields();
   };
 
   // TODO 表单校验
@@ -53,8 +54,9 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
+      destroyOnClose
     >
-      <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
+      <Form form={form} preserve={false} labelCol={{ span: 4 }} labelAlign="right">
         <Form.Item label="ID" name="roleId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>
@@ -62,7 +64,7 @@ const OperationModal = React.forwardRef((props: Props, ref) => {
           <Input placeholder="请输入角色名称"></Input>
         </Form.Item>
         <Form.Item label="权限" name="s">
-          {visible && <PermissionTree roleId={form.getFieldValue('roleId')} />}
+          <PermissionTree />
         </Form.Item>
         <Form.Item label="Code" name="roleCode">
           <Input placeholder="请输入Code"></Input>

@@ -42,7 +42,6 @@ const OperationModal: React.FC<Props> = (props: Props) => {
 
   const handleCancel = () => {
     setVisible(false);
-    form.resetFields();
   };
 
   // TODO 表单校验
@@ -53,8 +52,9 @@ const OperationModal: React.FC<Props> = (props: Props) => {
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
+      destroyOnClose
     >
-      <Form form={form} labelCol={{ span: 4 }} labelAlign="right">
+      <Form form={form} preserve={false} labelCol={{ span: 4 }} labelAlign="right">
         <Form.Item label="ID" name="userId" hidden={operation === Operation.CREATE}>
           <Input disabled />
         </Form.Item>

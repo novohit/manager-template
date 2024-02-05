@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Tree } from 'antd';
+import { Form, Tree } from 'antd';
 import type { TreeDataNode } from 'antd';
 import { list, rolePermission } from '@/services/menu';
 import { Menu } from '@/types/response/menu';
-
-interface Props {
-  roleId?: string;
-}
 
 const convertToTreeData = (menus: Menu[] = []) => {
   if (menus.length === 0) return [];
@@ -17,25 +13,30 @@ const convertToTreeData = (menus: Menu[] = []) => {
   return treeData;
 };
 
-const PermissionTree: React.FC<Props> = (props: Props) => {
+const PermissionTree: React.FC = () => {
   const [treeData, setTreeData] = useState<TreeDataNode[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>();
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>();
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
+  const form = Form.useFormInstance();
+  const roleId = form.getFieldValue('roleId');
+
   useEffect(() => {
     const loadList = async () => {
-      if (props.roleId) {
-        const { menus, checkedKeys } = await rolePermission(props.roleId);
+      if (roleId) {
+        const { menus, checkedKeys } = await rolePermission(roleId);
         setTreeData(convertToTreeData(menus));
         setCheckedKeys(checkedKeys);
         setExpandedKeys(checkedKeys); // 自动展开选中的菜单
       } else {
         const menus = await list();
         setTreeData(convertToTreeData(menus));
+        setCheckedKeys([]);
+        setExpandedKeys([]);
       }
     };
     loadList();
-  }, [props]);
+  }, [roleId]);
 
   const onExpand = (expandedKeysValue: React.Key[]) => {
     // if not set autoExpandParent to false, if children expanded, parent can not collapse.
@@ -44,7 +45,8 @@ const PermissionTree: React.FC<Props> = (props: Props) => {
     setAutoExpandParent(false);
   };
 
-  const onCheck = (checkedKeysValue: React.Key[]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onCheck = (checkedKeysValue: any) => {
     setCheckedKeys(checkedKeysValue);
   };
 
