@@ -1,20 +1,23 @@
+/* eslint-disable react-refresh/only-export-components */
 import AdminLayout from '@/layouts/AdminLayout';
 import Login from '@/pages/login/Login';
 import Register from '@/pages/register/Register';
-import UserList from '@/pages/system/user';
-import DeptList from '@/pages/system/dept';
-import MenuList from '@/pages/system/menu';
-import RoleList from '@/pages/system/role';
-import Welcome from '@/pages/Welcome';
 import AuthLoader from './AuthLoader';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import NotFound from '@/pages/NotFound';
 import Forbidden from '@/pages/Forbidden';
+import loadable from '@loadable/component';
 
 export const HOME_PATH = '/';
 export const LOGIN_PATH = '/login';
 export const REGISTER_PATH = '/register';
 export const ADMIN_PATH = '/admin';
+
+const Welcome = loadable(() => import('@/pages/Welcome'));
+const UserList = loadable(() => import('@/pages/system/user'));
+const DeptList = loadable(() => import('@/pages/system/dept'));
+const MenuList = loadable(() => import('@/pages/system/menu'));
+const RoleList = loadable(() => import('@/pages/system/role'));
 
 const router = createBrowserRouter([
   {

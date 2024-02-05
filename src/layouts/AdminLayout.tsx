@@ -46,7 +46,6 @@ const AdminLayout: React.FC = () => {
   const { pathname } = useLocation();
   const { menus, router } = useLoaderData() as MenuRouter;
 
-  console.log(pathname);
   // 路由鉴权
   if (!router.includes(trimEnd(pathname, '/'))) return <Navigate to="/403" />;
 

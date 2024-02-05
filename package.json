@@ -15,6 +15,7 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.2",
     "@ant-design/icons": "^5.2.6",
+    "@loadable/component": "^5.16.3",
     "antd": "^5.13.1",
     "axios": "^1.6.5",
     "react": "^18.2.0",
@@ -23,6 +24,7 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@types/loadable__component": "^5.13.8",
     "@types/lodash.trimend": "^4.5.9",
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.43",

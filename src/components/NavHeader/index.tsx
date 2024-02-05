@@ -1,10 +1,11 @@
-import { HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Space } from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
 import React from 'react';
 import UserInfo from './UserInfo';
 import styles from './index.module.scss';
 import FullScreenButton from './FullScreenButton';
 import ThemeSwitch from './ThemeSwitch';
+import DynamicBreadcrumb from './DynamicBreadcrumb';
 
 interface Props {
   collapsed: boolean;
@@ -28,22 +29,7 @@ const NavHeader: React.FC<Props> = (props: Props) => {
               height: 64,
             }}
           />
-          <Breadcrumb
-            style={{ margin: '16px 0' }}
-            items={[
-              {
-                href: '',
-                title: <HomeOutlined />,
-              },
-              {
-                href: '',
-                title: 'User',
-              },
-              {
-                title: 'Application',
-              },
-            ]}
-          />
+          <DynamicBreadcrumb />
         </Space>
       </div>
       <div className={styles.right}>
