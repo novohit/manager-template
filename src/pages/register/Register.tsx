@@ -1,14 +1,13 @@
 import { UserAddOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import React from 'react';
 import styles from '../login/Login.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { LOGIN_PATH, REGISTER_PATH } from '@/router';
+import { Link } from 'react-router-dom';
+import { LOGIN_PATH } from '@/router';
 
 const { Title } = Typography;
 
 const Register: React.FC = () => {
-  const nav = useNavigate();
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>

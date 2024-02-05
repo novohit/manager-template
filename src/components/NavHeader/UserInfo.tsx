@@ -15,7 +15,7 @@ const UserInfo: React.FC = () => {
     navigate(LOGIN_PATH);
   };
 
-  const { loading } = useLoadUserInfo();
+  useLoadUserInfo();
 
   const user = useUserStore(state => state.user);
 
