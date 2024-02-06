@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { message as Message } from '@/utils/GlobalContext';
 import { getToken } from '@/utils/token';
+import NProgress from 'nprogress';
 
 const instance = axios.create({
   timeout: 10 * 1000,
@@ -9,6 +10,7 @@ const instance = axios.create({
 // request 拦截器
 instance.interceptors.request.use(
   config => {
+    NProgress.start();
     config.headers['Authorization'] = `Bearer ${getToken()}`;
     config.headers['apifoxToken '] = 'yKcUXXN6j7pyfd8G8kMjb';
     return config;
@@ -25,8 +27,10 @@ instance.interceptors.response.use(
       Message.error(message);
       // return Promise.reject(new Error(message));
       // TODO reject 异常处理
+      NProgress.done();
       return new Promise(() => {});
     }
+    NProgress.done();
     return data;
   },
   (error: AxiosError) => {
@@ -53,6 +57,7 @@ instance.interceptors.response.use(
     }
 
     Message.error(message);
+    NProgress.done();
     return Promise.reject(error);
   }
 );

@@ -54,9 +54,9 @@ const AdminLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* 左侧栏 */}
-      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)} theme="light">
         <div style={{ height: '32px', margin: '16px', background: 'gray' }}></div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       {/* 右侧区域 */}
       <Layout>
