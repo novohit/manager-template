@@ -4,7 +4,7 @@ import { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from '@/pages/Common.module.scss';
 import { del, getUserList } from '@/services/user';
-import { DEFAULT_PAGE_SIZE } from '@/constants';
+import { CALC_TABLE_SCROLL_Y, DEFAULT_PAGE_SIZE } from '@/constants';
 import SearchForm from '@/components/SearchForm';
 import OperationModal from './OperationModal';
 import { ModalRef, Operation } from '@/types/modal';
@@ -209,7 +209,7 @@ const UserList: React.FC = () => {
             onChange: onSelectChange,
           }}
           columns={columns}
-          scroll={{ x: 1500, y: 310 }}
+          scroll={{ x: 1500, y: CALC_TABLE_SCROLL_Y }}
           pagination={{
             current: pagination.page,
             pageSize: pagination.size,

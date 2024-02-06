@@ -55,8 +55,8 @@ const FullScreenButton: React.FC = () => {
           }}
           style={{
             fontSize: '16px',
-            width: 64,
-            height: 64,
+            width: 50,
+            height: 50,
           }}
         />
       </Tooltip>

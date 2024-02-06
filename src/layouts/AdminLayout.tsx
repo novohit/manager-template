@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, Typography, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { Link, Navigate, Outlet, useLoaderData, useLocation } from 'react-router-dom';
 import NavHeader from '../components/NavHeader';
 import styles from './AdminLayout.module.scss';
@@ -8,9 +8,9 @@ import { Menu as IMenu, MenuRouter } from '@/types/response/menu';
 import Icon from '@/components/Icon';
 import trimEnd from 'lodash.trimend';
 import Logo from '@/components/Logo';
+import NavTabs from '@/components/NavTabs';
 
-const { Header, Content, Footer, Sider } = Layout;
-const { Title } = Typography;
+const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -65,14 +65,13 @@ const AdminLayout: React.FC = () => {
       </Sider>
       {/* 右侧区域 */}
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <NavHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        </Header>
+        <NavHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <NavTabs />
         {/* <Content className={styles.content} style={{ background: colorBgContainer, borderRadius: borderRadiusLG }}> */}
         <Content className={styles.content} style={{ borderRadius: borderRadiusLG }}>
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '32px' }}>
+        <Footer style={{ textAlign: 'center', padding: 0, background: colorBgContainer, lineHeight: '30px' }}>
           React-Admin ©{new Date().getFullYear()} Created by novo
         </Footer>
       </Layout>

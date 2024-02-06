@@ -1,5 +1,5 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { Button, theme } from 'antd';
 import React from 'react';
 import UserInfo from './UserInfo';
 import styles from './index.module.scss';
@@ -14,30 +14,29 @@ interface Props {
 
 const NavHeader: React.FC<Props> = (props: Props) => {
   const { collapsed, setCollapsed } = props;
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   return (
-    <div className={styles.header}>
+    <div className={styles.header} style={{ background: colorBgContainer }}>
       <div className={styles.left}>
-        <Space>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-          <DynamicBreadcrumb />
-        </Space>
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            fontSize: '16px',
+            width: 50,
+            height: 50,
+          }}
+        />
+        <DynamicBreadcrumb />
       </div>
       <div className={styles.right}>
-        <Space>
-          <ThemeSwitch />
-          <FullScreenButton />
-          <UserInfo />
-        </Space>
+        <ThemeSwitch />
+        <FullScreenButton />
+        <UserInfo />
       </div>
     </div>
   );
