@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, Typography, theme } from 'antd';
 import { Link, Navigate, Outlet, useLoaderData, useLocation } from 'react-router-dom';
 import NavHeader from '../components/NavHeader';
 import styles from './AdminLayout.module.scss';
 import { Menu as IMenu, MenuRouter } from '@/types/response/menu';
 import Icon from '@/components/Icon';
 import trimEnd from 'lodash.trimend';
+import Logo from '@/components/Logo';
 
 const { Header, Content, Footer, Sider } = Layout;
+const { Title } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -54,9 +56,12 @@ const AdminLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       {/* 左侧栏 */}
-      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)} theme="light">
-        <div style={{ height: '32px', margin: '16px', background: 'gray' }}></div>
-        <Menu defaultSelectedKeys={['1']} mode="inline" items={items} />
+      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+        {/* <div style={{ height: '32px', margin: '16px', background: 'gray' }}>
+          <Title level={5}>Introduction</Title>
+        </div> */}
+        <Logo collapsed={collapsed} />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       {/* 右侧区域 */}
       <Layout>
