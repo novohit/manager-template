@@ -1,7 +1,7 @@
 import { Menu, MenuRouter } from '@/types/response/menu';
 import { findMenuByPath, removePrefix } from '@/utils';
 import { Tabs, theme } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useRouteLoaderData } from 'react-router-dom';
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
